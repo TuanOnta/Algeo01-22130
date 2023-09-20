@@ -19,12 +19,12 @@ public class Matrix {
     }
     
     // Selektor
-    public double getElement(int row, int col){
-        return (mem[row][col]);
+    public static double getElement(Matrix m,int row, int col){
+        return (m.mem[row][col]);
     }
     
-    public void setElement(int row, int col, int value) {
-        mem[row][col] = value;
+    public static void setElement(Matrix m,int row, int col, int value) {
+        m.mem[row][col] = value;
     }
 
     public static int getLastIdxRow(Matrix m){
