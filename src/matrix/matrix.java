@@ -168,7 +168,9 @@ public class Matrix {
 
     // MEnghitung SPL
     public static Matrix SPL_OBE(Matrix m){
-        Matrix result = copyMatrix(m);
+        Matrix result = new Matrix(m.numRows, m.numCols);
+        copyMatrix(m, result);
+
         for (int i=0;i<m.numRows;i++){
             for(int j=0;j<m.numRows;j++){
                 for(int k=0;k<m.numCols;k++){
@@ -185,7 +187,8 @@ public class Matrix {
     }
     
     public static Matrix OBEForward(Matrix m){
-        Matrix result = copyMatrix(m);
+        Matrix result = new Matrix(m.numRows, m.numCols);
+        copyMatrix(m, result);
         for (int i=0;i<m.numRows;i++){
             for(int j=0;j<m.numRows;j++){
                 for(int k=0;k<m.numCols;k++){
@@ -210,11 +213,6 @@ public class Matrix {
         System.out.println("Matrix p setelah di OBE adalah: ");
 
         printMatrix(p);
- 
-
-
-
-
     }
 
 }
