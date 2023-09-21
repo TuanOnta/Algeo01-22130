@@ -9,7 +9,7 @@ public class Matrix {
     private int numCols;
     
     
-    public static Scanner sc;
+    public static Scanner sc = new Scanner(System.in);
     
     // kontruktor
     public Matrix(int baris, int kolom) {
@@ -38,8 +38,9 @@ public class Matrix {
     }
 
     // Baca/tulis Matrix
-    public static void readMatrix(Matrix m,int baris, int kolom){
-
+    public static void readMatrix(Matrix m){
+        int baris = m.numRows;
+        int kolom = m.numCols;
         System.out.println("Masukan elemen-elemen matrix: ");
         for (int i = 0; i < baris; i++) {
             for (int j = 0; j < kolom; j++) {
@@ -58,11 +59,9 @@ public class Matrix {
     }
 
     // Operasi assignment Matrix
-    public static void copyMatrix(Matrix m,Matrix mcopy){
-        for (int i=0;i<m.numRows;i++){
-            for(int j=0;j<m.numCols;j++){
-                mcopy.mem[i][j] = m.mem[i][j];
-            }
+    public static void copyMatrix(Matrix m, Matrix mcopy) {
+        for (int i = 0; i < m.numRows; i++) {
+            System.arraycopy(m.mem[i], 0, mcopy.mem[i], 0, m.numCols);
         }
     }
 
@@ -166,4 +165,56 @@ public class Matrix {
         }
         return result;
     }
+
+    // MEnghitung SPL
+    public static Matrix SPL_OBE(Matrix m){
+        Matrix result = copyMatrix(m);
+        for (int i=0;i<m.numRows;i++){
+            for(int j=0;j<m.numRows;j++){
+                for(int k=0;k<m.numCols;k++){
+                    if (j==0){
+                        result.mem[i][k] /= result.mem[i][i];
+                    }
+                    if (j != i){
+                        result.mem[j][k] -= (result.mem[j][i])*(result.mem[i][k]);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+    
+    public static Matrix OBEForward(Matrix m){
+        Matrix result = copyMatrix(m);
+        for (int i=0;i<m.numRows;i++){
+            for(int j=0;j<m.numRows;j++){
+                for(int k=0;k<m.numCols;k++){
+                    if (j==0){
+                        result.mem[i][k] /= result.mem[i][i];
+                    }
+                    if (j != i){
+                        result.mem[j][k] -= (result.mem[j][i])*(result.mem[i][k]);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        Matrix p = new Matrix(3,4);
+        
+        readMatrix(p);
+
+        p = SPL_OBE(p);
+        System.out.println("Matrix p setelah di OBE adalah: ");
+
+        printMatrix(p);
+ 
+
+
+
+
+    }
+
 }
