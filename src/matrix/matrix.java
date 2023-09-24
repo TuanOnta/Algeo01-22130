@@ -169,28 +169,45 @@ public class Matrix {
     public static void swapRows(Matrix matrix, int row1, int row2){
         double[] temp = matrix.mem[row1];
         matrix.mem[row1] = matrix.mem[row2];
-        matrix.mem[row2] = matrix.mem[row1];
+        matrix.mem[row2] = temp;
     }
-
-
+    
     // MEnghitung SPL
-    public static void OBE(Matrix m,int countSwap){
+    public static void Gauss(Matrix m,int countSwap){
         countSwap = 0;
-        double pengali;
-        for (int i=0;i<m.numRows;i++){
-            for(int j=0;j<m.numRows;j++){
-                for(int k=0;k<m.numCols;k++){
-                    // Tukar baris jika diagonal utama 0
-                    if(getELMT(m,i,i) == 0 && i<m.numRows-1){
-                        swapRows(m, i, i+1);
-                        countSwap++;
+        for (int pivot=0;pivot<m.numRows;pivot++){
+            System.out.printf("tahap ke %d\n",pivot);
+            printMatrix(m);
+            if(getELMT(m, pivot, pivot) == 0 && pivot < m.numRows-1){
+                swapRows(m, pivot, pivot+1);
+                countSwap++;
+            }
+            for(int row=pivot+1 ;row<m.numRows;row++){
+                if(getELMT(m, pivot, pivot) != 0){
+                    double factor = m.mem[row][pivot]/m.mem[pivot][pivot];
+                    for(int col=0;col<m.numCols;col++){
+                        m.mem[row][col] -= factor*(m.mem[pivot][col]);
                     }
-                    // Buat pengalinya
-                    if (j==0 && getELMT(m, i, i) != 0){
-                        pengali = m.mem[i][k] / m.mem[i][i];
-                    }
-                    if (j != i){
-                        m.mem[j][k] -= (m.mem[j][i])*(m.mem[i][k]);
+                }
+            }
+        }
+    }
+    public static void GaussJordan(Matrix m,int countSwap){
+        countSwap = 0;
+        for (int pivot=0;pivot<m.numRows;pivot++){
+            System.out.printf("tahap ke %d\n",pivot);
+            printMatrix(m);
+            if(getELMT(m, pivot, pivot) == 0 && pivot < m.numRows-1){
+                swapRows(m, pivot, pivot+1);
+                countSwap++;
+            }
+            for(int row=0 ;row<m.numRows;row++){
+                if (getELMT(m, pivot, pivot) != 0){
+                    double factor = m.mem[row][pivot]/m.mem[pivot][pivot];
+                    for(int col=0;col<m.numCols;col++){
+                        if (row != pivot){
+                            m.mem[row][col] -= factor*(m.mem[pivot][col]);
+                        }
                     }
                 }
             }
@@ -200,13 +217,11 @@ public class Matrix {
     public static void main(String[] args) {
         Matrix p = new Matrix(3,4);
         int countSwap;
-        System.out.println("Masukan matrix :");
         readMatrix(p);
         countSwap = 0;
-        OBE(p, countSwap);
+        GaussJordan(p, countSwap);
         System.out.println("Matrix p setelah di OBE adalah: ");
 
         printMatrix(p);
     }
-
 }
