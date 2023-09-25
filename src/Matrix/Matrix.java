@@ -182,57 +182,67 @@ public class Matrix {
     }
     
     // MEnghitung SPL
-    public static void Gauss(Matrix m,int countSwap){
+    public static Matrix Gauss(Matrix matrix,int countSwap){
+        Matrix result = copyMatrix(matrix);
         countSwap = 0;
-        for (int pivot=0;pivot<m.numRows;pivot++){
+        for (int pivot=0;pivot<result.numRows;pivot++){
             System.out.printf("tahap ke %d\n",pivot);
-            m.printMatrix();
-            if(m.mem[pivot][pivot] == 0 && pivot < m.numRows-1){
-                swapRows(m, pivot, pivot+1);
+            result.printMatrix();
+            if(result.mem[pivot][pivot] == 0 && pivot < result.numRows-1){
+                swapRows(result, pivot, pivot+1);
                 countSwap++;
             }
-            if(m.mem[pivot][pivot] != 0){
-                devideRowByX(m, pivot, m.mem[pivot][pivot]);
+            if(result.mem[pivot][pivot] != 0){
+                devideRowByX(result, pivot, result.mem[pivot][pivot]);
             }
-            for(int row=pivot+1 ;row<m.numRows;row++){
-                if(m.mem[pivot][pivot] != 0){
-                    double factor = m.mem[row][pivot]/m.mem[pivot][pivot];
-                    for(int col=0;col<m.numCols;col++){
-                        m.mem[row][col] -= factor*(m.mem[pivot][col]);
+            for(int row=pivot+1 ;row<result.numRows;row++){
+                if(result.mem[pivot][pivot] != 0){
+                    double factor = result.mem[row][pivot]/result.mem[pivot][pivot];
+                    for(int col=0;col<result.numCols;col++){
+                        result.mem[row][col] -= factor*(result.mem[pivot][col]);
                     }
                 }
             }
         }
+        return result;
     }
-    public static void GaussJordan(Matrix m,int countSwap){
+    public static Matrix GaussJordan(Matrix matrix,int countSwap){
+        Matrix result = copyMatrix(matrix);
+        
         countSwap = 0;
-        for (int pivot=0;pivot<m.numRows;pivot++){
+        for (int pivot=0;pivot<result.numRows;pivot++){
             System.out.printf("tahap ke %d\n",pivot);
-            m.printMatrix();
-            if(m.mem[pivot][pivot] == 0 && pivot < m.numRows-1){
-                swapRows(m, pivot, pivot+1);
+            result.printMatrix();
+            if(result.mem[pivot][pivot] == 0 && pivot < result.numRows-1){
+                swapRows(result, pivot, pivot+1);
                 countSwap++;
             }
-            if(m.mem[pivot][pivot] != 0){
-                devideRowByX(m, pivot, m.mem[pivot][pivot]);
+            if(result.mem[pivot][pivot] != 0){
+                devideRowByX(result, pivot, result.mem[pivot][pivot]);
             }
-            for(int row=0 ;row<m.numRows;row++){
-                if (m.mem[pivot][pivot] != 0){
-                    double factor = m.mem[row][pivot]/m.mem[pivot][pivot];
-                    for(int col=0;col<m.numCols;col++){
+            for(int row=0 ;row<result.numRows;row++){
+                if (result.mem[pivot][pivot] != 0){
+                    double factor = result.mem[row][pivot]/result.mem[pivot][pivot];
+                    for(int col=0;col<result.numCols;col++){
                         if (row != pivot){
-                            m.mem[row][col] -= factor*(m.mem[pivot][col]);
+                            result.mem[row][col] -= factor*(result.mem[pivot][col]);
                         }
                     }
                 }
             }
         }
+        return result;
     }
 
     public static void main(String[] args) {
         Matrix p = new Matrix(3,4);
+        int i;
+        i = 0;
         p.readMatrix();
-        p.setElement(0, 0, 12);
+        Matrix result = GaussJordan(p,i);
+        System.out.println("Matrix p adalah: ");
         p.printMatrix();
+        System.out.println("Matrix result adalah: ");
+        result.printMatrix();
     }
 }
