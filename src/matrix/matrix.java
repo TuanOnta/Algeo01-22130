@@ -111,6 +111,13 @@ public class Matrix {
         return m;
     }
 
+    public static void devideRowByX(Matrix m,int baris, double X){
+    // Prosedur membagi suatu baris matrix dengan suatu konstanta X
+        for(int i =0;i<m.numCols;i++){
+            m.mem[baris][i] /= X;
+        }
+    }
+    
     // Operasi Relational
     public static boolean isMatrixEqual(Matrix m1, Matrix m2){
         if (m1.numRows == m2.numRows && m1.numCols == m2.numCols){
@@ -125,7 +132,7 @@ public class Matrix {
         }
         return false;
     }
-
+    
     public static boolean isMatrixNotEqual(Matrix m1, Matrix m2){
         return (!isMatrixEqual(m1,m2));
     }
@@ -182,6 +189,9 @@ public class Matrix {
                 swapRows(m, pivot, pivot+1);
                 countSwap++;
             }
+            if(m.mem[pivot][pivot] != 0){
+                devideRowByX(m, pivot, m.mem[pivot][pivot]);
+            }
             for(int row=pivot+1 ;row<m.numRows;row++){
                 if(getELMT(m, pivot, pivot) != 0){
                     double factor = m.mem[row][pivot]/m.mem[pivot][pivot];
@@ -201,6 +211,9 @@ public class Matrix {
                 swapRows(m, pivot, pivot+1);
                 countSwap++;
             }
+            if(m.mem[pivot][pivot] != 0){
+                devideRowByX(m, pivot, m.mem[pivot][pivot]);
+            }
             for(int row=0 ;row<m.numRows;row++){
                 if (getELMT(m, pivot, pivot) != 0){
                     double factor = m.mem[row][pivot]/m.mem[pivot][pivot];
@@ -213,7 +226,7 @@ public class Matrix {
             }
         }
     }
-    
+
     public static void main(String[] args) {
         Matrix p = new Matrix(3,4);
         int countSwap;
@@ -221,7 +234,6 @@ public class Matrix {
         countSwap = 0;
         GaussJordan(p, countSwap);
         System.out.println("Matrix p setelah di OBE adalah: ");
-
         printMatrix(p);
     }
 }
