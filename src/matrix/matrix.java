@@ -27,32 +27,32 @@ public class Matrix {
         mem[row][col] = value;
     }
 
-    public static int getLastIdxRow(Matrix m){
+    public int getLastIdxRow(){
         // Mengirimkan Index baris terbesar matrix
-        return (m.numRows-1);
+        return (numRows-1);
     }
 
-    public static int getLastIdxCol(Matrix m){
+    public int getLastIdxCol(){
         // Mengirimkan Index kolom terbesar matrix
-        return (m.numCols -1);
+        return (numCols -1);
     }
 
     // Baca/tulis Matrix
-    public static void readMatrix(Matrix m){
-        int baris = m.numRows;
-        int kolom = m.numCols;
+    public void readMatrix(){
+        int baris = numRows;
+        int kolom = numCols;
         System.out.println("Masukan elemen-elemen matrix: ");
         for (int i = 0; i < baris; i++) {
             for (int j = 0; j < kolom; j++) {
-                m.mem[i][j] = sc.nextDouble();
+                mem[i][j] = sc.nextDouble();
             }
         }
     }
 
-    public static void printMatrix(Matrix m) {
-        for (int i = 0; i < m.numRows; i++) {
-            for (int j = 0; j < m.numCols; j++) {
-                System.out.print(m.mem[i][j] + " ");
+    public void printMatrix() {
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                System.out.print(mem[i][j] + " ");
             }
             System.out.println();
         }
@@ -186,7 +186,7 @@ public class Matrix {
         countSwap = 0;
         for (int pivot=0;pivot<m.numRows;pivot++){
             System.out.printf("tahap ke %d\n",pivot);
-            printMatrix(m);
+            m.printMatrix();
             if(m.mem[pivot][pivot] == 0 && pivot < m.numRows-1){
                 swapRows(m, pivot, pivot+1);
                 countSwap++;
@@ -208,7 +208,7 @@ public class Matrix {
         countSwap = 0;
         for (int pivot=0;pivot<m.numRows;pivot++){
             System.out.printf("tahap ke %d\n",pivot);
-            printMatrix(m);
+            m.printMatrix();
             if(m.mem[pivot][pivot] == 0 && pivot < m.numRows-1){
                 swapRows(m, pivot, pivot+1);
                 countSwap++;
@@ -231,8 +231,8 @@ public class Matrix {
 
     public static void main(String[] args) {
         Matrix p = new Matrix(3,4);
-        readMatrix(p);
+        p.readMatrix();
         p.setElement(0, 0, 12);
-        printMatrix(p);
+        p.printMatrix();
     }
 }
