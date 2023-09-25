@@ -19,12 +19,12 @@ public class Matrix {
     }
     
     // Selektor
-    public static double getELMT(Matrix m,int row, int col){
-        return (m.mem[row][col]);
+    public double getELMT(int row, int col){
+        return mem[row][col];
     }
     
-    public static void setElement(Matrix m,int row, int col, int value) {
-        m.mem[row][col] = value;
+    public void setElement(int row, int col, double value) {
+        mem[row][col] = value;
     }
 
     public static int getLastIdxRow(Matrix m){
@@ -59,10 +59,12 @@ public class Matrix {
     }
 
     // Operasi assignment Matrix
-    public static void copyMatrix(Matrix m, Matrix mcopy) {
+    public static Matrix copyMatrix(Matrix m) {
+        Matrix mcopy = new Matrix(m.numRows, m.numCols);
         for (int i = 0; i < m.numRows; i++) {
             System.arraycopy(m.mem[i], 0, mcopy.mem[i], 0, m.numCols);
         }
+        return mcopy;
     }
 
     // Operasi Aritmatika terhadap matrix
@@ -185,7 +187,7 @@ public class Matrix {
         for (int pivot=0;pivot<m.numRows;pivot++){
             System.out.printf("tahap ke %d\n",pivot);
             printMatrix(m);
-            if(getELMT(m, pivot, pivot) == 0 && pivot < m.numRows-1){
+            if(m.mem[pivot][pivot] == 0 && pivot < m.numRows-1){
                 swapRows(m, pivot, pivot+1);
                 countSwap++;
             }
@@ -193,7 +195,7 @@ public class Matrix {
                 devideRowByX(m, pivot, m.mem[pivot][pivot]);
             }
             for(int row=pivot+1 ;row<m.numRows;row++){
-                if(getELMT(m, pivot, pivot) != 0){
+                if(m.mem[pivot][pivot] != 0){
                     double factor = m.mem[row][pivot]/m.mem[pivot][pivot];
                     for(int col=0;col<m.numCols;col++){
                         m.mem[row][col] -= factor*(m.mem[pivot][col]);
@@ -207,7 +209,7 @@ public class Matrix {
         for (int pivot=0;pivot<m.numRows;pivot++){
             System.out.printf("tahap ke %d\n",pivot);
             printMatrix(m);
-            if(getELMT(m, pivot, pivot) == 0 && pivot < m.numRows-1){
+            if(m.mem[pivot][pivot] == 0 && pivot < m.numRows-1){
                 swapRows(m, pivot, pivot+1);
                 countSwap++;
             }
@@ -215,7 +217,7 @@ public class Matrix {
                 devideRowByX(m, pivot, m.mem[pivot][pivot]);
             }
             for(int row=0 ;row<m.numRows;row++){
-                if (getELMT(m, pivot, pivot) != 0){
+                if (m.mem[pivot][pivot] != 0){
                     double factor = m.mem[row][pivot]/m.mem[pivot][pivot];
                     for(int col=0;col<m.numCols;col++){
                         if (row != pivot){
@@ -229,11 +231,8 @@ public class Matrix {
 
     public static void main(String[] args) {
         Matrix p = new Matrix(3,4);
-        int countSwap;
         readMatrix(p);
-        countSwap = 0;
-        GaussJordan(p, countSwap);
-        System.out.println("Matrix p setelah di OBE adalah: ");
+        p.setElement(0, 0, 12);
         printMatrix(p);
     }
 }
