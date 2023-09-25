@@ -4,9 +4,9 @@ import java.util.Scanner;
 
 public class Matrix {
     // Isi ADT Matrix
-    private double[][] mem;
-    private int numRows;
-    private int numCols;
+    public double[][] mem;
+    public int numRows;
+    public int numCols;
     
     
     public static Scanner sc = new Scanner(System.in);
