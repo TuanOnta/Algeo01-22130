@@ -182,67 +182,105 @@ public class Matrix {
     }
     
     // MEnghitung SPL
-    public static Matrix Gauss(Matrix matrix,int countSwap){
+    public static Matrix Gauss(Matrix matrix) {
+        int numRows = matrix.numRows;
+        int numCols = matrix.numCols;
+    
         Matrix result = copyMatrix(matrix);
-        countSwap = 0;
-        for (int pivot=0;pivot<result.numRows;pivot++){
-            System.out.printf("tahap ke %d\n",pivot);
-            result.printMatrix(); 
-            System.out.println();
-            if(result.mem[pivot][pivot] == 0 && pivot < result.numRows-1){
-                swapRows(result, pivot, pivot+1);
-                countSwap++;
-            }
-            if(result.mem[pivot][pivot] != 0){
-                result.devideRowByX(pivot, result.mem[pivot][pivot]);
-            }
-            for(int row=pivot+1 ;row<result.numRows;row++){
-                if(result.mem[pivot][pivot] != 0){
-                    double factor = result.mem[row][pivot]/result.mem[pivot][pivot];
-                    for(int col=0;col<result.numCols;col++){
-                        result.mem[row][col] -= factor*(result.mem[pivot][col]);
-                    }
+    
+        int pivotRow = 0;
+    
+        // Iterasi melalui setiap kolom, kecuali kolom terakhir
+        for (int pivotCol = 0; pivotCol < numCols - 1; pivotCol++) {
+            int rowToSwap = -1;
+    
+            // Cari baris yang sesuai untuk menjadi baris pivot
+            for (int row = pivotRow; row < numRows; row++) {
+                if (result.mem[row][pivotCol] != 0) {
+                    rowToSwap = row;
+                    break;
                 }
             }
+    
+            if (rowToSwap != -1) {
+                // Tukar baris pivot dengan baris yang sesuai
+                swapRows(result, pivotRow, rowToSwap);
+                double pivotValue = result.mem[pivotRow][pivotCol];
+
+                // Bagi baris pivot dengan nilai elemen di kolom pivot
+                result.devideRowByX(pivotRow, pivotValue);
+    
+                // Nolkan elemen-elemen di bawah kolom pivot
+                for (int row = pivotRow + 1; row < numRows; row++) {
+                    double factor = result.mem[row][pivotCol] / result.mem[pivotRow][pivotCol];
+                    for (int col = pivotCol; col < numCols; col++) {
+                        result.mem[row][col] -= factor * result.mem[pivotRow][col];
+                    }
+                }
+    
+                pivotRow++;
+            }
         }
+    
         return result;
     }
-    public static Matrix GaussJordan(Matrix matrix,int countSwap){
+    
+    public static Matrix GaussJordan(Matrix matrix) {
+        int numRows = matrix.numRows;
+        int numCols = matrix.numCols;
+    
         Matrix result = copyMatrix(matrix);
-        
-        countSwap = 0;
-        for (int pivot=0;pivot<result.numRows;pivot++){
-            System.out.printf("tahap ke %d\n",pivot);
-            result.printMatrix();
-            if(result.mem[pivot][pivot] == 0 && pivot < result.numRows-1){
-                swapRows(result, pivot, pivot+1);
-                countSwap++;
+    
+        int pivotRow = 0;
+    
+        // Iterasi melalui setiap kolom, kecuali kolom terakhir
+        for (int pivotCol = 0; pivotCol < numCols - 1; pivotCol++) {
+            int rowToSwap = -1;
+    
+            // Cari baris yang sesuai untuk menjadi baris pivot
+            for (int row = pivotRow; row < numRows; row++) {
+                if (result.mem[row][pivotCol] != 0) {
+                    rowToSwap = row;
+                    break;
+                }
             }
-            if(result.mem[pivot][pivot] != 0){
-                result.devideRowByX(pivot, result.mem[pivot][pivot]);
-            }
-            for(int row=0 ;row<result.numRows;row++){
-                if (result.mem[pivot][pivot] != 0){
-                    double factor = result.mem[row][pivot]/result.mem[pivot][pivot];
-                    for(int col=0;col<result.numCols;col++){
-                        if (row != pivot){
-                            result.mem[row][col] -= factor*(result.mem[pivot][col]);
+    
+            if (rowToSwap != -1) {
+                // Tukar baris pivot dengan baris yang sesuai
+                swapRows(result, pivotRow, rowToSwap);
+                double pivotValue = result.mem[pivotRow][pivotCol];
+    
+                // Bagi baris pivot dengan nilai elemen di kolom pivot
+                result.devideRowByX(pivotRow, pivotValue);
+    
+                // Nolkan elemen-elemen di atas dan di bawah kolom pivot
+                for (int row = 0; row < numRows; row++) {
+                    if (row != pivotRow && result.mem[row][pivotCol] != 0) {
+                        double factor = result.mem[row][pivotCol];
+                        for (int col = pivotCol; col < numCols; col++) {
+                            result.mem[row][col] -= factor * result.mem[pivotRow][col];
                         }
                     }
                 }
+    
+                pivotRow++;
             }
         }
+    
         return result;
     }
+    
 
     public static void main(String[] args) {
-        Matrix p = new Matrix(3,4);
+        Matrix p = new Matrix(4,5);
         int i;
         i = 0;
         p.readMatrix();
-        Matrix result = GaussJordan(p,i);
+        System.out.println();
+        Matrix result = Gauss(p);
         System.out.println("Matrix p adalah: ");
         p.printMatrix();
+        System.out.println();
         System.out.println("Matrix result adalah: ");
         result.printMatrix();
     }
