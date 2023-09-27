@@ -17,53 +17,53 @@ public class ReduksiBaris {
         m1.readMatrix();
 
         hasil = determinan(m1);
-
+        
+        System.out.println("Determinan matrix tersebut memakai metode Reduksi Baris adalah:");
         System.out.printf("%.2f ", hasil);
-
+        
         input.close();
     }
-
-    public static double determinan(Matrix m)
+    
+    public static double determinan(Matrix matrix)
     {
-        double hasil = 1.0;
-        Matrix mtemp = reduksiBaris(m);
-
-        for (int i = 0; i < mtemp.getLastIdxCol()+1; i++)
+        int n = matrix.getLastIdxCol()+1;
+        double det = 1;
+        Matrix m1 = new Matrix(n, n);
+        
+        for (int i = 0; i < matrix.getLastIdxCol(); i++)
         {
-            hasil *= mtemp.mem[i][i];
+            if (matrix.mem[i][i] == 0)
+            {
+                return 0;
+            }
         }
 
-        return hasil;
+        m1 = reduksibaris(matrix);
+            
+        for (int i = 0; i < n; i++)
+        {
+            det *= m1.mem[i][i];
+        }
+        
+         return det;
     }
+    
 
-
-    public static Matrix reduksiBaris(Matrix m)
+    public static Matrix reduksibaris(Matrix matrix)
     {
-        double min = m.mem[0][0], temp;
-        Matrix rowtemp = new Matrix(1, m.getLastIdxCol()+1);
-        int idxmin = 0;
-        
-        //mencari elemen terkecil di kolom pertama
-        for (int i = 0; i < m.getLastIdxRow()+1; i++)
+        int n = matrix.getLastIdxCol()+1;
+
+        for (int i = 0; i < n - 1; i++)
         {
-            if (m.mem[i][0] < min)
-            {
-                min = m.mem[i][0];
-                idxmin = i;
+            for (int j = i + 1; j < n; j++) {
+                double factor = matrix.mem[j][i] / matrix.mem[i][i];
+
+                for (int k = i; k < n; k++) {
+                    matrix.mem[j][k] -= factor * matrix.mem[i][k];
+                }
             }
         }
 
-        if (idxmin != 0)
-        {
-            for (int i = 0; i < m.getLastIdxCol()+1; i++)
-            {
-                rowtemp.mem[0][i] = m.mem[idxmin][i];
-                m.mem[idxmin][i] = m.mem[0][i];
-                m.mem[0][i] = rowtemp.mem[0][i];
-            }
-        }
-
-        
-        return m;
+        return matrix;
     }
 }
