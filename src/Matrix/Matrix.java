@@ -113,10 +113,10 @@ public class Matrix {
         return m;
     }
 
-    public static void devideRowByX(Matrix m,int baris, double X){
+    public void devideRowByX(int baris, double X){
     // Prosedur membagi suatu baris matrix dengan suatu konstanta X
-        for(int i =0;i<m.numCols;i++){
-            m.mem[baris][i] /= X;
+        for(int i =0;i<numCols;i++){
+            mem[baris][i] /= X;
         }
     }
     
@@ -187,13 +187,14 @@ public class Matrix {
         countSwap = 0;
         for (int pivot=0;pivot<result.numRows;pivot++){
             System.out.printf("tahap ke %d\n",pivot);
-            result.printMatrix();
+            result.printMatrix(); 
+            System.out.println();
             if(result.mem[pivot][pivot] == 0 && pivot < result.numRows-1){
                 swapRows(result, pivot, pivot+1);
                 countSwap++;
             }
             if(result.mem[pivot][pivot] != 0){
-                devideRowByX(result, pivot, result.mem[pivot][pivot]);
+                result.devideRowByX(pivot, result.mem[pivot][pivot]);
             }
             for(int row=pivot+1 ;row<result.numRows;row++){
                 if(result.mem[pivot][pivot] != 0){
@@ -218,7 +219,7 @@ public class Matrix {
                 countSwap++;
             }
             if(result.mem[pivot][pivot] != 0){
-                devideRowByX(result, pivot, result.mem[pivot][pivot]);
+                result.devideRowByX(pivot, result.mem[pivot][pivot]);
             }
             for(int row=0 ;row<result.numRows;row++){
                 if (result.mem[pivot][pivot] != 0){
