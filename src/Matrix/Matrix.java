@@ -142,7 +142,7 @@ public class Matrix {
     public static boolean isMatrixSizeEqual(Matrix m1, Matrix m2){
         return (m1.numRows == m2.numRows && m1.numCols == m2.numCols);
     }
-
+    
     public static int countElmt(Matrix m){
         return (m.numRows * m.numCols);
     }
