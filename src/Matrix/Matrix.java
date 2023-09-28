@@ -52,7 +52,7 @@ public class Matrix {
     public void printMatrix() {
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
-                System.out.print(mem[i][j] + " ");
+                System.out.printf("%.2f ",mem[i][j]);
             }
             System.out.println();
         }
@@ -142,7 +142,7 @@ public class Matrix {
     public static boolean isMatrixSizeEqual(Matrix m1, Matrix m2){
         return (m1.numRows == m2.numRows && m1.numCols == m2.numCols);
     }
-    
+
     public static int countElmt(Matrix m){
         return (m.numRows * m.numCols);
     }
@@ -180,6 +180,18 @@ public class Matrix {
         matrix.mem[row1] = matrix.mem[row2];
         matrix.mem[row2] = temp;
     }
+
+    public static void hapusMinNol(Matrix matrix){
+        int maxBaris = matrix.numRows;
+        int maxKolom = matrix.numCols;
+        for (int i=0;i<maxBaris;i++){
+            for(int j=0;j<maxKolom;j++){
+                if(matrix.mem[i][j] == -0.0){
+                    matrix.mem[i][j] = 0;
+                }
+            }
+        }
+    }
     
     // MEnghitung SPL
     public static Matrix Gauss(Matrix matrix) {
@@ -209,7 +221,7 @@ public class Matrix {
 
                 // Bagi baris pivot dengan nilai elemen di kolom pivot
                 result.devideRowByX(pivotRow, pivotValue);
-    
+
                 // Nolkan elemen-elemen di bawah kolom pivot
                 for (int row = pivotRow + 1; row < numRows; row++) {
                     double factor = result.mem[row][pivotCol] / result.mem[pivotRow][pivotCol];
@@ -221,7 +233,8 @@ public class Matrix {
                 pivotRow++;
             }
         }
-    
+        hapusMinNol(result);
+
         return result;
     }
     
@@ -262,11 +275,11 @@ public class Matrix {
                         }
                     }
                 }
-    
+
                 pivotRow++;
             }
         }
-    
+        hapusMinNol(result);
         return result;
     }
     
