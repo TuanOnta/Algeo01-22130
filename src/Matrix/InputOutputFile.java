@@ -15,7 +15,7 @@ public class InputOutputFile {
             String namaFile = sc.nextLine();
 
             // Inisialisasi file path
-            String filePath = "../test/" + namaFile;
+            String filePath = "..\\test\\" + namaFile;
 
             System.out.println(filePath);
 
@@ -27,15 +27,15 @@ public class InputOutputFile {
                 long maxBaris = br.lines().count();
                 br.close();
 
-                BufferedReader newbr = new BufferedReader(new FileReader(file));
-                int maxKolom = newbr.readLine().split(" ").length;
-                newbr.close();
+                BufferedReader brbaru = new BufferedReader(new FileReader(file));
+                int maxKolom = brbaru.readLine().split(" ").length;
+                brbaru.close();
 
                 Matrix matrix = new Matrix((int) maxBaris, maxKolom);
                 // Membaca elemen matriks dari file
-                try (BufferedReader innerbr = new BufferedReader(new FileReader(file))) {
+                try (BufferedReader brdalam = new BufferedReader(new FileReader(file))) {
                     for (int i = 0; i < matrix.numRows; i++) {
-                        String[] elements = innerbr.readLine().split(" ");
+                        String[] elements = brdalam.readLine().split(" ");
                         for (int j = 0; j < matrix.numCols; j++) {
                             matrix.setElement(i, j, Double.parseDouble(elements[j]));
                         }
@@ -51,8 +51,7 @@ public class InputOutputFile {
                 return matrix1;
             }
         } catch (Exception e) {
-            System.err.println("Terjadi kesalahan");
-            System.err.println(e.getMessage());
+            System.err.println("Tidak ada nama file atau terjadi kesalahan saat proses");
             return null;
         }
     }

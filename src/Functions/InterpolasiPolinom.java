@@ -69,7 +69,7 @@ public class InterpolasiPolinom {
 
     public static void interpolasiPolinom(){
         Matrix matrix = inputPolinom();
-        Matrix result = Matrix.GaussJordan(matrix);
+        Matrix result = SPL.GaussJordan(matrix);
         int kondisi = SPL.cekKondisi(result);
         
         switch (kondisi){
