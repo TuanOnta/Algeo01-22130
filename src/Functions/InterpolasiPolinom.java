@@ -38,8 +38,25 @@ public class InterpolasiPolinom {
     public static Matrix inputPolinom(){
         double x,y;
         int pangkat;
+
+        //MNKI HERE, ILL WRITE IN CAPS TO MAKE MY COMMENTS DIFFERENT
+        //IM NOT SCREAMING
+
+        //START OF SELECT METHOD
+        int choice;
+        do{
+        System.out.println("Pilih metode input");
+        System.out.println("1. Keyboard input");
+        System.out.println("2. File input");
+        System.out.println("3. Cancel (Return -999) <DISABLED>");
+        choice = sc.nextInt();
+        } while (choice != 1 && choice != 2);
+
+        
+        //START OF KEYBOARD INPUTS
+        if (choice == 1){
         System.out.print("Masukan derajat polinom : ");
-        int n =  sc.nextInt(); 
+        int n = sc.nextInt(); 
         while (n<0){
             System.out.println("Derajat polinom minimal adalah 0");
             System.out.print("Masukan derajat polinom : ");
@@ -62,9 +79,38 @@ public class InterpolasiPolinom {
                     matrix.mem[i][j] = Math.pow(x, pangkat);
                 }
                 pangkat--;
+                }
             }
+            return matrix;
         }
-        return matrix;
+        //END OF KEYBOARD INPUTS
+        //choice == 2;
+        else{
+
+        //GET USERINPUTTED MATRIX
+        System.out.println("Note : File matrix yang digunakan setiap barisnya berformat: X Y");
+        Matrix userInput = NewIO.readMatrixFromFile();
+        //Derajat polinom, kalau ada 5 titik maka derajat nya 4, ergo n titik derajat n-1
+        int n = userInput.numRows -1;
+        Matrix matrix = new Matrix(n+1, n+2);
+        for (int i = 0;i<n+1;i++){
+            pangkat = n;
+            // Input nilai x dan y
+            x = userInput.getELMT(i, 0);
+            y = userInput.getELMT(i, 1);
+            // Masukan nilai ke dalam matrix augmented yang berisi x dan y
+            for(int j = 0;j<n+2;j++){
+                // Buat kondisi untuk memasukan nilai y di kolom terakhir
+                if(pangkat==-1){
+                    matrix.mem[i][j] = y;
+                }else{
+                    matrix.mem[i][j] = Math.pow(x, pangkat);
+                }
+                pangkat--;
+                }
+            }
+            return matrix;
+        }
     }
 
     public static void interpolasiPolinom(){
