@@ -12,7 +12,7 @@ public class InterpolasiPolinom {
         System.out.print("f(x) = ");
         for (int i = 0; i <= derajat; i++) {
             double koefisien = koefisienList.get(i);
-            System.out.printf("%.3 f", koefisien); // Menampilkan hanya 2 angka di belakang koma
+            System.out.printf("%.3f", koefisien); // Menampilkan hanya 2 angka di belakang koma
 
             if (i < derajat) {
                 System.out.print("x^" + (derajat - i));
