@@ -4,17 +4,38 @@ import Matrix.*;
 
 public class LinearRegresion{
 
-public static Scanner scan = new Scanner(System.in);
 
 public static int linearRegresion(){
 
+    Scanner scan = new Scanner(System.in);
 
-
+    //START OF INPUT METHOD SELECTION
+    int choice;
+    do{
+    System.out.println("Pilih metode input");
+    System.out.println("1. Keyboard input");
+    System.out.println("2. File input");
+    System.out.println("3. Cancel (Return -999)");
+    choice = scan.nextInt();
+    } while (choice != 1 && choice != 2 && choice != 3);
+    
     //god knows what i made here
     //probably he doesnt know either
+    Matrix userInput;
 
+    if (choice == 3){
+        scan.close();
+        return (-999);
+    }
     //I.S = Input matrix augmented
-    
+
+    else if (choice == 2){
+        userInput = NewIO.readMatrixFromFile();
+    }
+
+    //choice == 3
+    else {
+
     System.out.println("Masukkan jumlah peubah (x) : ");
     int n = scan.nextInt();
     System.out.println("Masukkan jumlah sampel : ");
@@ -24,12 +45,16 @@ public static int linearRegresion(){
 
     System.out.println("Masukkan sampel dengan format berikut,");
     System.out.println("x1 x2 .. xn y");
-    Matrix userInput = new Matrix(m,(n+1)); //kebawah m sejumlah sampel, kekanan n+1 sejumlah peubah + y
+    userInput = new Matrix(m,(n+1)); //kebawah m sejumlah sampel, kekanan n+1 sejumlah peubah + y
     userInput.readMatrix();
-    Matrix gaussTarget = new Matrix(n+1,n+2); //"variabel" ada b0 di kiri, jadi kebawah jumlah var + 1
+    }
+    
+    int jumlahPeubah = userInput.numCols - 1;
+    Matrix gaussTarget = new Matrix(jumlahPeubah+1,jumlahPeubah+2); //"variabel" ada b0 di kiri, jadi kebawah jumlah var + 1
     double sigmaHolder;
     double multiplier;
     userInput.printMatrix();
+
 
     //DEBUG
     //System.out.println(gaussTarget.numRows);
@@ -66,9 +91,12 @@ public static int linearRegresion(){
     }
 
     gaussTarget.printMatrix();
+    
+    gaussTarget = SPL.GaussJordan(gaussTarget);
 
+    gaussTarget.printMatrix();
 
-
+    scan.close();
     return 0;
     }
 
