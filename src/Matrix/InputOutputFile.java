@@ -43,7 +43,7 @@ public class InputOutputFile {
                 }
                 return matrix;
             } catch (IOException e) {
-                System.err.println("Terjadi kesalahan selama proses pembacaan");
+                System.err.println("Tidak ada nama file atau terjadi kesalahan selama proses pembacaan");
                 System.err.println(e.getMessage());
                 System.err.println("Mengembalikan matriks 1x1 berisi 0");
                 Matrix matrix1 = new Matrix(1, 1);
@@ -51,7 +51,7 @@ public class InputOutputFile {
                 return matrix1;
             }
         } catch (Exception e) {
-            System.err.println("Tidak ada nama file atau terjadi kesalahan saat proses");
+            System.err.println("Terjadi kesalahan");
             return null;
         }
     }
