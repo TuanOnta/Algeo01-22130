@@ -9,9 +9,9 @@ import java.io.FileWriter;
 
 
 public class NewIO {
-    static Scanner sc = new Scanner(System.in);
 
     private static String runLoc;
+    private static Scanner sc = new Scanner(System.in);
 
     public static Matrix readMatrixFromFile(){
         runLoc = System.getProperty("user.dir");
@@ -19,7 +19,7 @@ public class NewIO {
         
         System.out.println("Inset file name in IOFolder : ");
         String fileName = sc.nextLine();
-        sc.close();
+        //sc.close();
         runLoc = runLoc + "\\" + fileName;
 
         
@@ -74,6 +74,42 @@ public class NewIO {
         }    
     }
 
+    public static void writeMatrixToFile(Matrix m){
+        runLoc = System.getProperty("user.dir");
+        runLoc = (runLoc + "\\IOFolder");
+        
+        System.out.println("Insert save file name in IOFolder");
+        System.out.println("leave blank for default (output.txt) :");
+        String fileName = sc.nextLine();
+        if (fileName.isBlank()){
+            fileName = "output.txt";
+        }
+        runLoc = runLoc + "\\" + fileName;
+
+        
+        File f = new File(runLoc);
+
+        //WRITE TO FILE PART
+        try{
+            BufferedWriter writer = new BufferedWriter(new FileWriter(f));
+            String rowHolder;
+            for (int i = 0; i < m.numRows; i++){
+                rowHolder = "";
+                for (int j = 0; j < m.numCols; j++){
+                    rowHolder += Double.toString(m.getELMT(i, j));
+                    if (j < m.numCols-1){ //selama belum angka paling kanan, tambah spasi
+                        rowHolder += " ";
+                    }
+                }
+                writer.write(rowHolder);
+            }
+            writer.close();
+            }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    };
+    /* LEGACY CODE
     public static void testWrite(){
         runLoc = System.getProperty("user.dir");
         runLoc = (runLoc + "\\test");
@@ -138,9 +174,11 @@ public class NewIO {
             e.printStackTrace();
         }
         }
+         */
    public static void main(String[] args){
     Matrix test = readMatrixFromFile();
     test.printMatrix();
+    writeMatrixToFile(test);
     /* 
     File directory = new File(runLocation);
     File[] files = directory.listFiles();
