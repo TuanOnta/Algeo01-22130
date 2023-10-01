@@ -5,7 +5,7 @@ import Matrix.*;
 public class LinearRegresion{
 
 
-public static int linearRegresion(){
+public static double linearRegresion(){
 
     Scanner scan = new Scanner(System.in);
 
@@ -16,7 +16,7 @@ public static int linearRegresion(){
     System.out.println("1. Keyboard input");
     System.out.println("2. File input");
     System.out.println("3. Cancel (Return -999)");
-    choice = scan.nextInt();
+    choice = Integer.parseInt(scan.nextLine());
     } while (choice != 1 && choice != 2 && choice != 3);
     
     //god knows what i made here
@@ -36,10 +36,12 @@ public static int linearRegresion(){
     //choice == 3
     else {
 
-    System.out.println("Masukkan jumlah peubah (x) : ");
+    System.out.printf("Masukkan jumlah peubah (x) : ");
     int n = scan.nextInt();
-    System.out.println("Masukkan jumlah sampel : ");
+    scan.nextLine();
+    System.out.printf("Masukkan jumlah sampel : ");
     int m = scan.nextInt();
+    scan.nextLine();
 
     //scan.close();
 
@@ -53,7 +55,9 @@ public static int linearRegresion(){
     Matrix gaussTarget = new Matrix(jumlahPeubah+1,jumlahPeubah+2); //"variabel" ada b0 di kiri, jadi kebawah jumlah var + 1
     double sigmaHolder;
     double multiplier;
-    userInput.printMatrix();
+    
+    //print input for debug
+    //userInput.printMatrix();
 
 
     //DEBUG
@@ -63,11 +67,7 @@ public static int linearRegresion(){
     for (int i = 0; i < gaussTarget.numRows; i++){
         for (int j = 0; j < gaussTarget.numCols; j++){
             sigmaHolder = 0;
-            System.out.print(i + " " + j);
-            System.out.println();
             for (int k = 0; k < userInput.numRows; k++){ //start sigma semua var xn
-                System.out.print(k); //INI HARUSNYA MAX SAMPE M-1
-                System.out.println();
                 //SET MULTIPLIER
                 //row 1 multiplier nya local col 1, row 2 multiplier nya local col 2
                 if (i == 0){ //exception col 1 doesnt exist in user input, replace with 1
@@ -90,14 +90,34 @@ public static int linearRegresion(){
         }
     }
 
+    System.out.println("Sistem persamaan linear :");
     gaussTarget.printMatrix();
     
     gaussTarget = SPL.GaussJordan(gaussTarget);
-
+    
+    System.out.println();
+    System.out.println("Hasil gauss jordan");
     gaussTarget.printMatrix();
 
+    System.out.println();
+    System.out.println("Tafsirkan nilai Xk?(Y/N)");
+    String tafsirConfirm = scan.nextLine();
+    double tafsiran = 0;
+
+    System.out.println(tafsirConfirm);
+    if (tafsirConfirm.equals("Y")){
+        double tafsirInput;
+        tafsiran += gaussTarget.getELMT(0, gaussTarget.getLastIdxCol());
+        for (int i = 1; i < gaussTarget.numRows; i++){
+            System.out.printf("x"+i+" : ");
+            tafsirInput = scan.nextDouble();
+            tafsiran += tafsirInput * gaussTarget.getELMT(i, gaussTarget.getLastIdxCol());
+        }
+        System.out.printf("Tafsiran nilai y : %.3f\n",tafsiran);
+    }
+
     scan.close();
-    return 0;
+    return tafsiran;
     }
 
     public static void main(String[] args) {
