@@ -100,6 +100,9 @@ public class NewIO {
                     if (j < m.numCols-1){ //selama belum angka paling kanan, tambah spasi
                         rowHolder += " ";
                     }
+                    else{
+                        if (i < m.numRows-1) rowHolder += "\n";
+                    }
                 }
                 writer.write(rowHolder);
             }
