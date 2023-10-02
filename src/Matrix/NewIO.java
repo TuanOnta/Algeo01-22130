@@ -15,6 +15,9 @@ public class NewIO {
 
     public static Matrix readMatrixFromFile(){
         runLoc = System.getProperty("user.dir");
+
+        //System.out.println(runLoc);
+
         runLoc = (runLoc + "\\IOFolder");
         
         System.out.println("Inset file name in IOFolder : ");
