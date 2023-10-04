@@ -115,5 +115,46 @@ public class Inverse
 
         return det;
     }
+
+    public static Matrix SPLInverse(Matrix m){
+
+            if (m.numRows+1 != m.numCols){
+                System.out.println("Inverse tidak bisa digunakan! ukuran koefisien bukan kotak");
+                Matrix retval = new Matrix(1, 1);
+                retval.setElement(0, 0, 0);
+                return retval;
+            }
+    
+            Matrix coefficients = new Matrix(m.numRows, m.numRows); //left part of the augmented matrix
+            Matrix constants = new Matrix(m.numRows, 1); //right part of the augmented matrix
+            //Matrix results = new Matrix(1, m.numRows);
+    
+    
+    
+            for (int i = 0; i < m.numRows; i++){
+                //System.out.print(m.getELMT(i, m.getLastIdxCol()));
+                //System.out.println();
+                constants.setElement(i, 0, m.getELMT(i, m.getLastIdxCol())); //extract row
+                for (int j = 0 ; j < m.numCols-1; j++){
+                coefficients.setElement(i, j, m.getELMT(i, j));
+                }
+            }
+            //coefficients.printMatrix();
+            //constants.printMatrix();
+    
+            double det = determinan(coefficients); //obtaining determinant
+            //System.out.println(det + "DET");
+    
+            if (det == 0){
+                System.out.println("Inverse tidak bisa digunakan! determinan = 0");
+                Matrix retval = new Matrix(1, 1);
+                retval.setElement(0, 0, 0);
+                return retval;
+            }
+
+            Matrix result = Matrix.multiplyMatrix(findInverse(coefficients),constants) ;
+            result.printMatrix();
+            return result;
+        }
 }
 
