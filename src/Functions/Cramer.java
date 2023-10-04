@@ -25,6 +25,14 @@ public class Cramer {
 
 
     public static Matrix augmentedCramer(Matrix m){
+
+        if (m.numRows+1 != m.numCols){
+            System.out.println("Cramer tidak bisa digunakan! ukuran koefisien bukan kotak");
+            Matrix retval = new Matrix(1, 1);
+            retval.setElement(0, 0, 0);
+            return retval;
+        }
+
         Matrix coefficients = new Matrix(m.numRows, m.numRows); //left part of the augmented matrix
         Matrix constants = new Matrix(m.numRows, 1); //right part of the augmented matrix
         Matrix results = new Matrix(1, m.numRows);
@@ -43,7 +51,14 @@ public class Cramer {
         //constants.printMatrix();
 
         double det = determinant(coefficients); //obtaining determinant
-        System.out.println(det + "DET");
+        //System.out.println(det + "DET");
+
+        if (det == 0){
+            System.out.println("Cramer tidak bisa digunakan! determinan = 0");
+            Matrix retval = new Matrix(1, 1);
+            retval.setElement(0, 0, 0);
+            return retval;
+        }
         //System.out.print(det);
         double value; //calc value, simplifying coding
         Matrix replaced;
@@ -64,8 +79,7 @@ public class Cramer {
     }
 
     public static void main(String[] args){
-        Matrix bruh = new Matrix(3, 4);
-        bruh.readMatrix();
+        Matrix bruh = NewIO.readMatrixFromFile();
         //bruh.printMatrix();
         Matrix result = augmentedCramer(bruh);
         result.printMatrix();
