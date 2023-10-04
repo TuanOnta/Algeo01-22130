@@ -18,7 +18,7 @@ public class NewIO {
 
         //System.out.println(runLoc);
 
-        runLoc = (runLoc + "\\IOFolder");
+        runLoc = (runLoc + "\\test");
         
         System.out.println("Inset file name in IOFolder : ");
         String fileName = sc.nextLine();
@@ -79,7 +79,7 @@ public class NewIO {
 
     public static void writeMatrixToFile(Matrix m){
         runLoc = System.getProperty("user.dir");
-        runLoc = (runLoc + "\\IOFolder");
+        runLoc = (runLoc + "\\test");
         
         System.out.println("Insert save file name in IOFolder");
         System.out.println("leave blank for default (output.txt) :");
