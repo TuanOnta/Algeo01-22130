@@ -59,7 +59,13 @@ public class NewIO {
                 line = reader.readLine(); //newRow basically
                 String[] elements = line.split(" ");
                 for (int j = 0; j < matrix.numCols; j++) {
+                    if (elements.length < matrix.numCols && j >= elements.length){
+                        //do nothing, biarin null basically
+                    matrix.setElement(i, j, Double.NaN);
+                    }
+                    else{
                     matrix.setElement(i, j, Double.parseDouble(elements[j]));
+                    }
                 }
 
             }
