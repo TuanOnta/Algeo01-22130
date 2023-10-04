@@ -23,18 +23,14 @@ public static double linearRegresion(){
     //probably he doesnt know either
     Matrix userInput;
 
-    if (choice == 3){
-        scan.close();
-        return (-999);
-    }
     //I.S = Input matrix augmented
 
-    else if (choice == 2){
+    if (choice == 2){
         userInput = NewIO.readMatrixFromFile();
     }
 
-    //choice == 3
-    else {
+    //choice == 1
+    else if (choice == 1){
 
     System.out.printf("Masukkan jumlah peubah (x) : ");
     int n = scan.nextInt();
@@ -51,6 +47,11 @@ public static double linearRegresion(){
     userInput.readMatrix();
     }
     
+    else {
+        scan.close();
+        return (-999);
+    }
+
     int jumlahPeubah = userInput.numCols - 1;
     Matrix gaussTarget = new Matrix(jumlahPeubah+1,jumlahPeubah+2); //"variabel" ada b0 di kiri, jadi kebawah jumlah var + 1
     double sigmaHolder;
