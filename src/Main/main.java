@@ -71,7 +71,7 @@ public class main {
         );
         int pilihan;
         System.out.print("Masukan pilihan anda : ");
-        pilihan = sc.nextInt();
+        pilihan = Integer.parseInt(sc.nextLine());;
     
         Utility.clearScreen();
         Utility.loadingScreen();
@@ -84,7 +84,7 @@ public class main {
                 "4. Kaidah Crammer"
             );
             System.out.print("Masukan pilihan anda : ");
-            pilihan = sc.nextInt();
+            pilihan = Integer.parseInt(sc.nextLine());
             
             //prompt input
             if (pilihan >= 1 && pilihan <= 4){
@@ -100,7 +100,7 @@ public class main {
                     hasil = SPL.GaussJordan(userInput);
                 }
                 else if (pilihan == 3){
-                    hasil = ReduksiBaris.reduksibaris(userInput);
+                    hasil = Inverse.SPLInverse(userInput);
                 }
                 else if (pilihan == 4){
                     hasil = Cramer.augmentedCramer(userInput);
@@ -182,11 +182,19 @@ public class main {
             }
         }
         else if(pilihan == 3){
+            sc.nextLine();
             userInput = promptInput();
+
+            //exception buat kalo gak kotak karena gw takut ngotak ngatik
+            if (userInput.numCols == userInput.numRows){
             userInput = Inverse.findInverse(userInput);
             System.out.println("Hasil inverse : ");
             userInput.printMatrix();
             promptWrite(userInput);
+            }
+            else{
+                System.out.print("Ukuran matrix salah! tidak kotak");
+            }
         }
         else if(pilihan == 4){
             InterpolasiPolinom.interpolasiPolinom();
