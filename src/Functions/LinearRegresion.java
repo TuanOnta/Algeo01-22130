@@ -95,30 +95,45 @@ public static double linearRegresion(){
     gaussTarget.printMatrix();
     
     gaussTarget = SPL.GaussJordan(gaussTarget);
-    
+
     System.out.println();
     System.out.println("Hasil gauss jordan");
     gaussTarget.printMatrix();
 
-    System.out.println();
-    System.out.println("Tafsirkan nilai Xk?(Y/N)");
-    String tafsirConfirm = scan.nextLine();
-    double tafsiran = 0;
+    int kondisi = SPL.cekKondisi(gaussTarget);
+        
+    switch (kondisi){
+        case -1 :
+            System.out.println("Polinom diatas tidak memiliki solusi");
+            scan.close();
+            return 0;
+            //break;
+        case 0 :
+            System.out.println("Polonom diatas memiliki solusi banyak");
+            scan.close();
+            return 0;
+            //break;
+        default :
+            System.out.println();
+            System.out.println("Tafsirkan nilai Xk?(Y/N)");
+            String tafsirConfirm = scan.nextLine();
+            double tafsiran = 0;
 
-    System.out.println(tafsirConfirm);
-    if (tafsirConfirm.equals("Y")){
-        double tafsirInput;
-        tafsiran += gaussTarget.getELMT(0, gaussTarget.getLastIdxCol());
-        for (int i = 1; i < gaussTarget.numRows; i++){
-            System.out.printf("x"+i+" : ");
-            tafsirInput = scan.nextDouble();
-            tafsiran += tafsirInput * gaussTarget.getELMT(i, gaussTarget.getLastIdxCol());
+            System.out.println(tafsirConfirm);
+            if (tafsirConfirm.equals("Y")){
+                double tafsirInput;
+                tafsiran += gaussTarget.getELMT(0, gaussTarget.getLastIdxCol());
+                for (int i = 1; i < gaussTarget.numRows; i++){
+                    System.out.printf("x"+i+" : ");
+                    tafsirInput = scan.nextDouble();
+                    tafsiran += tafsirInput * gaussTarget.getELMT(i, gaussTarget.getLastIdxCol());
+                }
+                System.out.printf("Tafsiran nilai y : %.3f\n",tafsiran);
+            }
+        
+            scan.close();
+            return tafsiran;
         }
-        System.out.printf("Tafsiran nilai y : %.3f\n",tafsiran);
-    }
-
-    scan.close();
-    return tafsiran;
     }
 
     public static void main(String[] args) {
