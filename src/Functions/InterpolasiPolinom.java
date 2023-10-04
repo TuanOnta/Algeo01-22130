@@ -25,6 +25,7 @@ public class InterpolasiPolinom {
         }
         System.out.println();
     }
+    
     public static void tampilkanPersamaanKoefisien(ArrayList<Double> xlist) {
         int derajat = xlist.size() - 1;
 
@@ -167,7 +168,7 @@ public class InterpolasiPolinom {
                 System.out.println("Polinom diatas tidak memiliki solusi");
                 break;
             case 0 :
-                System.out.println("Polonom diatas memiliki solusi banyak");
+                System.out.println("Polinom diatas memiliki solusi banyak");
                 tampilanPersamaanSolusiBanyak(matrix);
                 break;
             default :
