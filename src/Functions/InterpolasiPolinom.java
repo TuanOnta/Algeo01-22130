@@ -13,7 +13,7 @@ public class InterpolasiPolinom {
         System.out.print("f(x) = ");
         for (int i = 0; i <= derajat; i++) {
             double koefisien = koefisienList.get(i);
-            System.out.printf("%.3f", koefisien); // Menampilkan hanya 2 angka di belakang koma
+            System.out.printf("%.3f", koefisien); // Menampilkan hanya 3 angka di belakang koma
 
             if (i < derajat) {
                 System.out.print("x^" + (derajat - i));
@@ -25,6 +25,51 @@ public class InterpolasiPolinom {
             }
         }
         System.out.println();
+    }
+    
+    public static void tampilkanPersamaanKoefisien(ArrayList<Double> xlist) {
+        int derajat = xlist.size() - 1;
+
+        System.out.print("f(x) = ");
+        for (int i = 0; i <= derajat; i++){
+            double nilaix = xlist.get(i);
+            if(nilaix == 0 && i < derajat){
+                continue;
+            }
+            System.out.printf("%.3f", nilaix); // Menampilkan hanya 3 angka di belakang koma
+
+            if (i == derajat - 2 && xlist.get(derajat - 1) == 0){
+                System.out.print("a" + (i+1) + " = ");
+                continue;
+            }
+            if (i < derajat) {
+                    System.out.print("a" + (i+1));
+                    if (xlist.get(i + 1) >= 0 && i < (derajat - 1)) {
+                        System.out.print(" + ");
+                    }else if(i == derajat -1){
+                        System.out.print(" = ");
+                    } else {
+                        System.out.print(" ");
+                    }
+            }
+        }
+        System.out.println();
+    }
+
+    public static void tampilanPersamaanSolusiBanyak(Matrix augmentedMatrix){
+        ArrayList<Double> xList = new ArrayList<>();
+        System.out.println("Persamaan Koefisiennya adalah : ");
+        for (int i=0;i<augmentedMatrix.numRows;i++){
+            // Jika seluruh element pada baris ke i nol semua maka continue
+            if(augmentedMatrix.isBarisNol(i)){
+                continue;
+            }
+            for(int j=0;j<augmentedMatrix.numCols;j++){
+                xList.add(augmentedMatrix.mem[i][j]);
+            }
+            tampilkanPersamaanKoefisien(xList);
+            xList.clear();
+        }
     }
     public static double hitungNilai(ArrayList<Double> koefisienList, double x) {
         double hasil = 0.0;
@@ -135,14 +180,15 @@ public class InterpolasiPolinom {
                 System.out.println("Polinom diatas tidak memiliki solusi");
                 break;
             case 0 :
-                System.out.println("Polonom diatas memiliki solusi banyak");
+                System.out.println("Polinom diatas memiliki solusi banyak");
+                tampilanPersamaanSolusiBanyak(matrix);
                 break;
             default :
                 ArrayList<Double> koefisienList = new ArrayList<>();
                 System.out.println("Polinom memiliki solusi homogen");
                 for (int i =0 ;i<result.numRows;i++){
                     koefisienList.add(result.mem[i][result.numCols-1]);
-                    System.out.printf("Nilai dari a%d : %.2f\n",(result.numRows-1-i),result.mem[i][result.numCols-1]);
+                    System.out.printf("Nilai dari a%d : %.3f\n",(result.numRows-1-i),result.mem[i][result.numCols-1]);
                 }
                 System.out.println();
                 tampilkanPersamaan(koefisienList);
@@ -172,6 +218,9 @@ public class InterpolasiPolinom {
     }
 
     public static void main(String[] args){
-        interpolasiPolinom();
+        Matrix augmentedMatrix = new Matrix(3, 4);
+        augmentedMatrix.readMatrix();
+
+        tampilanPersamaanSolusiBanyak(augmentedMatrix);
     }
 }

@@ -171,6 +171,15 @@ public class Matrix {
         return (m1.numRows == m2.numRows && m1.numCols == m2.numCols);
     }
 
+    public boolean isBarisNol(int baris){
+        for (int j=0;j<numCols;j++){
+            if (mem[baris][j] != 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static int countElmt(Matrix m){
         // I.S Matrix m merupakan matrix yang valid
         // F.S Mengembalikan m.numRows x m.numCols

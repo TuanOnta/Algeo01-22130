@@ -1,4 +1,7 @@
 package Functions;
+import java.util.ArrayList;
+
+import Main.main;
 import Matrix.*;
 
 public class SPL {
@@ -107,8 +110,5 @@ public class SPL {
         }
         return 1;
     }
-
-    public static void SPlGauss(Matrix m){
-        System.out.println("Masukan ");
-    }
+    
 }
