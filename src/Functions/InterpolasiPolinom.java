@@ -5,6 +5,7 @@ import Matrix.*;
 
 public class InterpolasiPolinom {
     static Scanner sc = new Scanner(System.in);
+    private static double tafsirValue;
 
     public static void tampilkanPersamaan(ArrayList<Double> koefisienList) {
         int derajat = koefisienList.size() - 1;
@@ -92,6 +93,16 @@ public class InterpolasiPolinom {
         Matrix userInput = NewIO.readMatrixFromFile();
         //Derajat polinom, kalau ada 5 titik maka derajat nya 4, ergo n titik derajat n-1
         int n = userInput.numRows -1;
+        
+        //kalo ada angka iseng di ahkir, harusnya paling bawah kanan adalah Not a Number, based on NewIO application
+        if (Double.isNaN(userInput.getELMT(userInput.getLastIdxRow(), userInput.getLastIdxCol()))){
+            n--;
+            tafsirValue = userInput.getELMT(userInput.getLastIdxRow(),0);
+        }
+        else{
+            tafsirValue = Double.NaN;
+        }
+
         Matrix matrix = new Matrix(n+1, n+2);
         for (int i = 0;i<n+1;i++){
             pangkat = n;
@@ -115,6 +126,7 @@ public class InterpolasiPolinom {
 
     public static void interpolasiPolinom(){
         Matrix matrix = inputPolinom();
+        matrix.printMatrix();        
         Matrix result = SPL.GaussJordan(matrix);
         int kondisi = SPL.cekKondisi(result);
         
@@ -135,13 +147,24 @@ public class InterpolasiPolinom {
                 System.out.println();
                 tampilkanPersamaan(koefisienList);
                 System.out.println();
-                System.out.print("Berapa banyak anda ingin melakukan pengujian nilai : ");
-                double x;
-                int n = sc.nextInt();
-                for (int i = 0; i<n ;i++){
-                    System.out.printf("Masukan nilai x%d : ", i+1);
-                    x = sc.nextDouble();
-                    System.out.println("nilai dari f(x) adalah " + hitungNilai(koefisienList, x));
+
+                //CEK JIKA FILE INPUT MEMILIKI INPUT TAFSIRAN ATAU TIDAK
+                if (Double.isNaN(tafsirValue)){
+                    System.out.print("Berapa banyak anda ingin melakukan pengujian nilai : ");
+                    double x;
+                    int n = sc.nextInt();
+                    for (int i = 0; i<n ;i++){
+                        System.out.printf("Masukan nilai x%d : ", i+1);
+                        x = sc.nextDouble();
+                        System.out.println("nilai dari f(x) adalah " + hitungNilai(koefisienList, x));
+                        System.out.println();
+                    }
+
+                }
+                else{
+                    System.out.printf("Nilai tafsir terdeteksi:");
+                    System.out.println(tafsirValue);
+                    System.out.println("nilai dari f(x) adalah " + hitungNilai(koefisienList, tafsirValue));
                     System.out.println();
                 }
 
