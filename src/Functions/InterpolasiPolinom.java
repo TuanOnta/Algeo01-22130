@@ -130,7 +130,7 @@ public class InterpolasiPolinom {
                 System.out.println("Polinom memiliki solusi homogen");
                 for (int i =0 ;i<result.numRows;i++){
                     koefisienList.add(result.mem[i][result.numCols-1]);
-                    System.out.printf("Nilai dari a%d : %.2f\n",(result.numRows-1-i),result.mem[i][result.numCols-1]);
+                    System.out.printf("Nilai dari a%d : %.3f\n",(result.numRows-1-i),result.mem[i][result.numCols-1]);
                 }
                 System.out.println();
                 tampilkanPersamaan(koefisienList);
