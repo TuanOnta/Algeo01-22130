@@ -4,10 +4,61 @@ import Functions.*;
 import java.util.Scanner;
 
 import Matrix.Matrix;
+import Matrix.NewIO;
 
 public class main {
     public static Scanner sc = new Scanner(System.in);
+
+    private static Matrix promptInput(){ /*meminta user untuk memasukkan matriks*/
+        
+        //START OF INPUT METHOD SELECTION
+        int choice;
+        do{
+        System.out.println("Pilih metode input");
+        System.out.println("1. Keyboard input");
+        System.out.println("2. File input");
+        System.out.println("3. Cancel (Return -999)");
+        choice = Integer.parseInt(sc.nextLine());
+        } while (choice != 1 && choice != 2 && choice != 3);
+
+        Matrix userInput = null;
+        if (choice == 1){
+            System.out.printf("Masukkan jumlah row :");
+            int row = sc.nextInt();
+            System.out.printf("Masukkan jumlah col :");
+            int col = sc.nextInt();
+            userInput = new Matrix(row,col);
+            sc.nextLine(); //
+            userInput.readMatrix();
+        }
+        if (choice == 2){
+            userInput = NewIO.readMatrixFromFile();
+        }
+        else{ 
+            return userInput.createIdentity(2);
+            //idk
+        }
+
+        return userInput;
+    };
+
+    private static void promptWrite(Matrix m){ /*menanya jika user ingin menulis hasil matriks ke file apa tidak*/
+        
+        System.out.println("Save to file? (Y/N)");
+        String ask = sc.nextLine();
+        if  (ask.equals("Y")){
+            NewIO.writeMatrixToFile(m);
+        }
+    };
+
     public static void main(String[] args) {
+        boolean running = true;
+
+        while (running == true){
+
+        Matrix hasil;
+        Matrix userInput;
+
         System.out.println(
             "MENU\n" +
             "1. Sistem Persamaaan Linier\n" +
@@ -34,6 +85,31 @@ public class main {
             );
             System.out.print("Masukan pilihan anda : ");
             pilihan = sc.nextInt();
+            
+            //prompt input
+            if (pilihan >= 1 && pilihan <= 4){
+                
+                System.out.println("NOTE : Gunakan matrix augmented");
+                userInput = promptInput();
+                
+                hasil = null;
+                if (pilihan == 1){
+                    hasil = SPL.Gauss(userInput);
+                }
+                else if (pilihan == 2){
+                    hasil = SPL.GaussJordan(userInput);
+                }
+                else if (pilihan == 3){
+                    hasil = ReduksiBaris.reduksibaris(userInput);
+                }
+                else if (pilihan == 4){
+                    hasil = Cramer.augmentedCramer(userInput);
+                }
+
+                System.out.println("Hasil :");
+                hasil.printMatrix();
+                promptWrite(hasil);
+            }
         }
         else if(pilihan == 2){
             System.out.println(
@@ -49,6 +125,9 @@ public class main {
                 pilihan = sc.nextInt();
             }
 
+
+            /* LEGACY MATRIX INPUT
+            {
             // Membuat matrix
             System.out.print("Masukan jumlah baris matrix : ");
             int baris = sc.nextInt();
@@ -66,10 +145,35 @@ public class main {
             matrix.readMatrix();
 
             System.out.println();
+            }
+            */
+            boolean inputValid = false;
+            Matrix matrix = null;
+            while (inputValid == false){
+                sc.nextLine();
+                matrix = promptInput();
+                if (matrix.numCols != matrix.numRows){
+                    System.out.println("Incorect input detected, square matrix only!");
+                    System.out.println("Try again? (Y/N)");
+
+                    String choice = sc.nextLine();
+                    if (choice.equals("N")){
+                        //back to main
+                    }
+                }
+                else{
+                    inputValid = true;
+                }
+            }
 
             if (pilihan == 1){
-
-            }else{ // Jika pilihan == 2
+                double det = ReduksiBaris.determinan(matrix);
+                System.out.println("Matrix anda adalah");
+                matrix.printMatrix();
+                System.out.print("Determinan Matrix adalah ");
+                System.out.printf("%.2f", det);
+            }
+            else{ // Jika pilihan == 2
                 double det = Functions.Cofactor.CofactorExpansion(matrix, 0);
                 System.out.println("Matrix anda adalah");
                 matrix.printMatrix();
@@ -78,20 +182,32 @@ public class main {
             }
         }
         else if(pilihan == 3){
-
+            userInput = promptInput();
+            userInput = Inverse.findInverse(userInput);
+            System.out.println("Hasil inverse : ");
+            userInput.printMatrix();
+            promptWrite(userInput);
         }
         else if(pilihan == 4){
-
+            InterpolasiPolinom.interpolasiPolinom();
         }
         else if(pilihan == 5){
-
+            BicubicSplineInterpolation.main(args);
         }
         else if(pilihan == 6){
-
+            LinearRegresion.linearRegresion();
         }
-        else if(pilihan == 7){
-
+        else if(pilihan == 7){ //exit()
+            //piss off lmao;
+            running = false;
+            System.exit(0);
         }
+
+        System.out.println();
+        }
+        //ceritanya udah exit
+        System.exit(0);
     }
+
     
 }
