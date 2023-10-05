@@ -214,41 +214,9 @@ public class SPL {
         }
         else if (cekKondisi(m2) == 0)
         {
-            System.out.print("penyelesaian dari Matrix augmented tersebut adalah: ");
-            Matrix m3 = GaussJordan(m2);
-            for (int i = 0; i <= m3.getLastIdxRow(); i++)
-            {
-                if (m3.mem[i][i] == 1)
-                {
-                    System.out.printf("X");
-                    System.out.printf("%d = %.2f", i+1, m3.mem[i][m3.getLastIdxCol()]);
-                    if (i == m3.getLastIdxRow())
-                    {
-                        System.out.print(".");
-                    }
-                    else
-                    {
-                        System.out.print(", ");
-                    }
-                }
-                else
-                {
-                    for (int z = 0; z < m3.numRows; z++)
-                    {
-                        int pivotColumn = -1;
-                        for (int j = 0; j < m3.numCols; j++)
-                        {
-                            if (m3.mem[z][j] != 0) {
-                                pivotColumn = j;
-                                break;
-                            }
-                        }
-                        if (pivotColumn == -1) {
-                            System.out.println("X" + (i + 1) + " adalah variabel bebas.");
-                        }
-                    }
-                }
-            }
+            System.out.println("penyelesaian dari Matrix augmented tersebut adalah: ");
+            resolveParametric(m2);
+
         }
     }
 
