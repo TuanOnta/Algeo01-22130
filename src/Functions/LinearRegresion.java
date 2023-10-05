@@ -111,6 +111,7 @@ public static double linearRegresion(){
         case 0 :
             System.out.println("Polonom diatas memiliki solusi banyak");
             scan.close();
+            SPL.resolveParametric(gaussTarget);
             return 0;
             //break;
         default :

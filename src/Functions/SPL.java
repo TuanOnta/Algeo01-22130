@@ -266,21 +266,33 @@ public class SPL {
                 ref[j] = -1;
         }
         
+        //CHECK FREE
+
+        for (int i = 0; i < m.numCols-1;i++){
+            boolean isFree = true;
+            for (int j = 0; j < m.numRows; j++){
+                isFree = isFree && (m.getELMT(j, i) == 0);
+            }
+            if (isFree){
+                isPara[i] = true;
+                name[i] = "Free";
+            }
+        }
+
         int errorHelper = 0;
-        boolean checkFinished = false;
         int i = 0;
         int tolerance = 2;
-        while(!checkFinished){
+        while(true){
             
             //DEBUG
-            ///System.out.printf("RUN %d\n",i);
+            ///System.out.printf("RUN %d\n",i);///
 
             //aa donno
             //cari angka paling kiri
 
             int leftNum = 0;
             for (leftNum = 0; leftNum < m.numCols; leftNum++){
-                ///System.out.printf("%.2f ",m.getELMT(i, leftNum));
+                ///System.out.printf("%.2f ",m.getELMT(i, leftNum));///
                 //
                 if (m.getELMT(i, leftNum) == 1){
                     break;
@@ -310,7 +322,7 @@ public class SPL {
 
             //kalau ada waktu, handling lebih dari 1
             else if (count <= tolerance && count != 0){
-                ///System.out.println("proc!");
+                //System.out.println("proc!");///
                 isPara[leftNum] = true;
                 ref[leftNum] = i;
 
@@ -327,7 +339,7 @@ public class SPL {
                 }
 
                 ///
-                /*
+             /* 
                 for (int h1 = 0; h1<vari;h1++){
                 System.out.print(name[h1]);
                 System.out.print(" ");
@@ -343,18 +355,19 @@ public class SPL {
                 System.out.print(" ");
                 }
                 System.out.println();
-                
-                */
+       */
                 ///
             }
             else{
-                ///System.out.println("SKIP!");
+                //System.out.println("SKIP!");///
             }
 
             //check finished
-            checkFinished = true;
+            boolean checkFinished = true;
             for (int k = 0; k < (ref.length); k++){
-                if (ref[k] == -1) checkFinished = false;
+                checkFinished = checkFinished && isPara[k];
+            }
+            if (checkFinished){
                 break;
             }
 
@@ -389,17 +402,38 @@ public class SPL {
             };
         }
 
+
         for (int k = 0; k < vari; k++){
-            System.out.printf("x%d = ",k);
+            System.out.printf("x%d = ",(k+1));
             //cek ref nya, ref[l]
             int cek = ref[k];
             if (cek != -1){
+            //check ref
+            boolean firstNum = true;
             for (int l = k+1 ; l < m.numCols ; l++){
+                
+                //debug time
+                //System.out.printf("%d \n",l);
 
                 double konstanta = (int)m.getELMT(cek, l);
                 konstanta *= -1;
-
+                
                 if (konstanta != 0 && l != m.numCols-1){
+
+                    if (firstNum == true){
+                        firstNum = false;
+                    }
+                    else{
+                        if(konstanta >= 0){
+                            System.out.printf(" + ");
+                        }
+                        else{
+                            konstanta *= -1;
+                            System.out.printf(" - ");
+                        }
+                    }
+
+
                 System.out.printf("%.2f",konstanta);
 
                     if (ref[l] == -1){
@@ -409,7 +443,17 @@ public class SPL {
                 }
 
                 else if ((int)m.getELMT(cek, l) != 0 && l == m.numCols-1){
-                    System.out.printf("%.2f ",m.getELMT(cek, l));
+                    
+                    double numbah = m.getELMT(cek, l);
+                    if(numbah >= 0){
+                            System.out.printf(" + ");
+                        }
+                    else{
+                            numbah *= -1;
+                            System.out.printf(" - ");
+                        }
+                    
+                    System.out.printf("%.2f ",numbah);
                     System.out.printf(" ");
                     }
 
@@ -417,7 +461,7 @@ public class SPL {
             //l = idxLastCol
                 }
             else{
-
+                //if ()
                 System.out.printf(name[k]);
                 System.out.printf(" ");
             }

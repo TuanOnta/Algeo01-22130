@@ -181,7 +181,7 @@ public class InterpolasiPolinom {
                 break;
             case 0 :
                 System.out.println("Polinom diatas memiliki solusi banyak");
-                tampilanPersamaanSolusiBanyak(matrix);
+                SPL.resolveParametric(matrix);
                 break;
             default :
                 ArrayList<Double> koefisienList = new ArrayList<>();
