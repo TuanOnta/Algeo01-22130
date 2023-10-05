@@ -251,4 +251,71 @@ public class SPL {
             }
         }
     }
+
+    public static Matrix SPLInverse(Matrix matrix)
+    {
+        Matrix mpersamaan = new Matrix(matrix.getLastIdxRow() + 1, matrix.getLastIdxCol());
+        Matrix mSPL = new Matrix(matrix.getLastIdxRow() + 1, 1);
+
+        for (int i = 0; i <= mpersamaan.getLastIdxRow(); i++)
+        {
+            for (int j = 0; j <= mpersamaan.getLastIdxCol(); j++)
+            {
+                mpersamaan.mem[i][j] = matrix.mem[i][j];
+            }
+        }
+        mpersamaan.printMatrix();
+
+        for (int i = 0; i <= mSPL.getLastIdxRow(); i++)
+        {
+            mSPL.mem[i][0] = matrix.mem[i][matrix.getLastIdxCol()];
+        }
+
+        Matrix hasil = Inverse.findInverse(mpersamaan);
+
+        Matrix last = Matrix.multiplyMatrix(hasil, mSPL);
+
+        for (int i = 0; i < last.getLastIdxRow(); i++)
+        {
+            mSPL.mem[i][0] = 0;
+            for (int j = 0; j < last.getLastIdxCol(); j++)
+            {
+                mSPL.mem[i][0] += last.mem[i][j];
+            }
+        }
+
+        mSPL.printMatrix();
+
+        System.out.println("Penyelesaian SPL menggunakan Inverse Matrix adalah:");
+        for (int i = 0; i <= mSPL.getLastIdxRow(); i++)
+        {
+            if (mSPL.mem[i][0] != 0)
+            {
+                System.out.printf("X%d = %.2f", i+1, mSPL.mem[i][0]);
+
+                if (i != mSPL.getLastIdxRow())
+                {
+                    System.out.print(", ");
+                }
+                else
+                {
+                    System.out.println(".");
+                }
+            }
+            else
+            {
+                System.out.printf("X%d adalah variabel bebas", i+1);
+                if (i != mSPL.getLastIdxRow())
+                {
+                    System.out.print(", ");
+                }
+                else
+                {
+                    System.out.println(".");
+                }
+            }
+        }
+
+        return mSPL;
+    }
 }
