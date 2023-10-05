@@ -286,7 +286,7 @@ public class SPL {
                     break;
                 }
             }
-            System.out.println();
+
             //kalau seluruh barus 0 continue
             if (leftNum+1 == m.numCols && m.getELMT(i, leftNum) == 0){
                 continue;
@@ -355,6 +355,7 @@ public class SPL {
             checkFinished = true;
             for (int k = 0; k < (ref.length); k++){
                 if (ref[k] == -1) checkFinished = false;
+                break;
             }
 
             errorHelper++;
