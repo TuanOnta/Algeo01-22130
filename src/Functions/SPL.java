@@ -1,8 +1,6 @@
 package Functions;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-
-import Main.main;
 import Matrix.*;
 
 public class SPL {

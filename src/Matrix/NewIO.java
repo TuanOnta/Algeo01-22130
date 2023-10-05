@@ -11,14 +11,20 @@ import java.io.FileWriter;
 public class NewIO {
 
     //CHANGE THIS TO CHANGE "BASE FOLDER"
-    private static String baseFolder = System.getProperty("user.dir");;
+    
+    private static String baseFolder = System.getProperty("user.dir");
+
     private static Scanner sc = new Scanner(System.in);
 
     public static Matrix readMatrixFromFile(){
         String runLoc;
+
+        /* 
         runLoc = baseFolder;
-        //System.out.println(runLoc);
+        System.out.println(runLoc);//
         runLoc = (runLoc + "\\test");
+        */
+        runLoc = "..\\test";
         
         System.out.println("Inset file name in test : ");
         String fileName = sc.nextLine();
@@ -85,8 +91,11 @@ public class NewIO {
 
     public static void writeMatrixToFile(Matrix m){
         String runLoc;
+
+        /* 
         runLoc = baseFolder;
-        
+        */
+        runLoc = "..\\test";
         System.out.println("Insert save file name in test");
         System.out.println("leave blank for default (output.txt) :");
         String fileName = sc.nextLine();
