@@ -1,5 +1,6 @@
 package Functions;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import Main.main;
 import Matrix.*;
@@ -110,5 +111,10 @@ public class SPL {
         }
         return 1;
     }
-    
+    public static void main(String[] args){
+        Matrix m = new Matrix(3, 7);
+        m.readMatrix();
+        Matrix hasil = GaussJordan(m);
+        hasil.printMatrix();
+    }
 }

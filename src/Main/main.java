@@ -1,5 +1,4 @@
 package Main;
-import Utility.*;
 import Functions.*;
 import java.util.Scanner;
 
@@ -74,9 +73,6 @@ public class main {
         System.out.print("Masukan pilihan anda : ");
         pilihan = Integer.parseInt(sc.nextLine());;
     
-        Utility.clearScreen();
-        Utility.loadingScreen();
-        Utility.clearScreen();
         if(pilihan == 1){
             System.out.println(
                 "1. Metode eliminasi Gauss\n" + 
