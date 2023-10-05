@@ -88,23 +88,27 @@ public class main {
                 
                 System.out.println("NOTE : Gunakan matrix augmented");
                 userInput = promptInput();
+
+                userInput.printMatrix();
                 
                 hasil = null;
                 if (pilihan == 1){
                     hasil = SPL.Gauss(userInput);
+                    SPL.SPLGauss(userInput);
                 }
                 else if (pilihan == 2){
                     hasil = SPL.GaussJordan(userInput);
+                    SPL.SPLGaussJordan(userInput);
                 }
                 else if (pilihan == 3){
                     hasil = Inverse.SPLInverse(userInput);
+                    hasil.printMatrix();
                 }
                 else if (pilihan == 4){
                     hasil = Cramer.augmentedCramer(userInput);
+                    hasil.printMatrix();
                 }
 
-                System.out.println("Hasil :");
-                hasil.printMatrix();
                 promptWrite(hasil);
             }
         }

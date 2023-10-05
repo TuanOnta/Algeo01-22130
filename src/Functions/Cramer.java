@@ -66,14 +66,15 @@ public class Cramer {
             replaced = replaceRow(coefficients,constants,i);
             //replaced.printMatrix();
             value = determinant(replaced);
-            replaced.printMatrix();
-            System.out.print(value + "  ");
+            //replaced.printMatrix();
+            //System.out.print(value + "  ");
             value = value/det;
-            System.out.println(value);
+            //System.out.println(value);
             results.setElement(0, i, value); 
             
         }
 
+        Matrix.hapusMinNol(results);
         return results;
 
     }
@@ -82,6 +83,7 @@ public class Cramer {
         Matrix bruh = NewIO.readMatrixFromFile();
         //bruh.printMatrix();
         Matrix result = augmentedCramer(bruh);
+        Matrix.hapusMinNol(result);
         result.printMatrix();
     }
 }
