@@ -108,6 +108,7 @@ public class main {
                     hasil.printMatrix();
                 }
 
+                System.out.println();
                 promptWrite(hasil);
             }
         }
