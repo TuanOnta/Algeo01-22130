@@ -101,8 +101,7 @@ public class main {
                     SPL.SPLGaussJordan(userInput);
                 }
                 else if (pilihan == 3){
-                    hasil = Inverse.SPLInverse(userInput);
-                    hasil.printMatrix();
+                    SPL.SPLInverse(userInput);
                 }
                 else if (pilihan == 4){
                     hasil = Cramer.augmentedCramer(userInput);
