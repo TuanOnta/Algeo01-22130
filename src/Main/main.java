@@ -22,6 +22,7 @@ public class main {
         } while (choice != 1 && choice != 2 && choice != 3);
 
         Matrix userInput = null;
+
         if (choice == 1){
             System.out.printf("Masukkan jumlah row :");
             int row = sc.nextInt();
@@ -31,7 +32,7 @@ public class main {
             sc.nextLine(); //
             userInput.readMatrix();
         }
-        if (choice == 2){
+        else if (choice == 2){
             userInput = NewIO.readMatrixFromFile();
         }
         else{ 
@@ -167,9 +168,9 @@ public class main {
             }
 
             if (pilihan == 1){
-                double det = ReduksiBaris.determinan(matrix);
                 System.out.println("Matrix anda adalah");
                 matrix.printMatrix();
+                double det = ReduksiBaris.determinan(matrix);
                 System.out.print("Determinan Matrix adalah ");
                 System.out.printf("%.2f", det);
             }
