@@ -251,4 +251,178 @@ public class SPL {
             }
         }
     }
+
+    //resolveTime
+    public static String[] resolveParametric(Matrix m){
+        int vari = m.numCols - 1;
+        int ref[] = new int[vari];
+        String name[] = new String[vari];
+        boolean isPara[] = new boolean[vari];
+        char availLetters[] = {'r','s','t','u','v'};
+        int letterCounter = 0;
+
+        //initialization
+        for (int j = 0; j < vari; j++) {
+                ref[j] = -1;
+        }
+        
+        int errorHelper = 0;
+        boolean checkFinished = false;
+        int i = 0;
+        int tolerance = 2;
+        while(!checkFinished){
+            
+            //DEBUG
+            ///System.out.printf("RUN %d\n",i);
+
+            //aa donno
+            //cari angka paling kiri
+
+            int leftNum = 0;
+            for (leftNum = 0; leftNum < m.numCols; leftNum++){
+                ///System.out.printf("%.2f ",m.getELMT(i, leftNum));
+                //
+                if (m.getELMT(i, leftNum) == 1){
+                    break;
+                }
+            }
+            System.out.println();
+            //kalau seluruh barus 0 continue
+            if (leftNum+1 == m.numCols && m.getELMT(i, leftNum) == 0){
+                continue;
+            }
+
+            //Count vars without references
+            //PERLU ADA HANDLING KALAU paramterik lebih dari 1
+            int count = 0;
+            for (int j = leftNum; j<m.numCols-1; j++){
+            
+                if (ref[j] == -1 && isPara[j] == false){
+                    count++;
+                }
+            }
+
+            //kalau count hanya 1, berarti tidak terikat/langsung nilai
+            if (count == 1){
+                isPara[leftNum] = true;
+                ref[leftNum] = i;
+            }
+
+            //kalau ada waktu, handling lebih dari 1
+            else if (count <= tolerance && count != 0){
+                ///System.out.println("proc!");
+                isPara[leftNum] = true;
+                ref[leftNum] = i;
+
+                leftNum++;
+                while (leftNum < vari){
+                    ///System.out.println(leftNum);
+                    if (m.getELMT(i, leftNum) != 0 && isPara[leftNum] != true){
+
+                    isPara[leftNum] = true;
+                    name[leftNum] = String.valueOf(availLetters[letterCounter]);
+                    letterCounter++;
+                    }
+                    leftNum++;
+                }
+
+                ///
+                /*
+                for (int h1 = 0; h1<vari;h1++){
+                System.out.print(name[h1]);
+                System.out.print(" ");
+                }
+                System.out.println();
+                for (int h2 = 0; h2<vari;h2++){
+                System.out.print(ref[h2]);
+                System.out.print(" ");
+                }
+                System.out.println();
+                for (int h3 = 0; h3<vari;h3++){
+                System.out.print(isPara[h3]);
+                System.out.print(" ");
+                }
+                System.out.println();
+                
+                */
+                ///
+            }
+            else{
+                ///System.out.println("SKIP!");
+            }
+
+            //check finished
+            checkFinished = true;
+            for (int k = 0; k < (ref.length); k++){
+                if (ref[k] == -1) checkFinished = false;
+            }
+
+            errorHelper++;
+            if (errorHelper >= 100){
+                System.out.println("Error! parametric failed");
+                /* 
+                for (int h1 = 0; h1<vari;h1++){
+                System.out.print(name[h1]);
+                System.out.print(" ");
+                }
+                System.out.println();
+                for (int h2 = 0; h2<vari;h2++){
+                System.out.print(ref[h2]);
+                System.out.print(" ");
+                }
+                System.out.println();
+                for (int h3 = 0; h3<vari;h3++){
+                System.out.print(isPara[h3]);
+                System.out.print(" ");
+                }
+                System.out.println();
+                
+                */
+                break;
+            }
+            i++;
+
+            if (i >= m.numRows){
+                i = i%m.numRows;
+                tolerance++;
+            };
+        }
+
+        for (int k = 0; k < vari; k++){
+            System.out.printf("x%d = ",k);
+            //cek ref nya, ref[l]
+            int cek = ref[k];
+            if (cek != -1){
+            for (int l = k+1 ; l < m.numCols ; l++){
+
+                double konstanta = (int)m.getELMT(cek, l);
+                konstanta *= -1;
+
+                if (konstanta != 0 && l != m.numCols-1){
+                System.out.printf("%.2f",konstanta);
+
+                    if (ref[l] == -1){
+                        System.out.printf(name[l]);
+                    }
+                    System.out.printf(" ");
+                }
+
+                else if ((int)m.getELMT(cek, l) != 0 && l == m.numCols-1){
+                    System.out.printf("%.2f ",m.getELMT(cek, l));
+                    System.out.printf(" ");
+                    }
+
+            }
+            //l = idxLastCol
+                }
+            else{
+
+                System.out.printf(name[k]);
+                System.out.printf(" ");
+            }
+            System.out.println();
+        }
+        return name;
+    }
+
 }
